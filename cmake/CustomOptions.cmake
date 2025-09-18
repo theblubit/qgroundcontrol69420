@@ -2,12 +2,12 @@ include(CMakeDependentOption)
 # The following options can be overriden by custom builds using the CustomOverrides.cmake file
 
 # App
-set(QGC_APP_NAME "QGroundControl" CACHE STRING "App Name")
-set(QGC_APP_COPYRIGHT "Copyright (c) 2025 QGroundControl. All rights reserved." CACHE STRING "Copyright")
+set(QGC_APP_NAME "BluGC" CACHE STRING "App Name")
+set(QGC_APP_COPYRIGHT "Copyright (c) 2025 BluGC. All rights reserved." CACHE STRING "Copyright")
 set(QGC_APP_DESCRIPTION "Open Source Ground Control App" CACHE STRING "Description")
-set(QGC_ORG_NAME "QGroundControl" CACHE STRING "Org Name")
-set(QGC_ORG_DOMAIN "qgroundcontrol.com" CACHE STRING "Domain")
-set(QGC_PACKAGE_NAME "org.mavlink.qgroundcontrol" CACHE STRING "Package Name")
+set(QGC_ORG_NAME "BluGC" CACHE STRING "Org Name")
+set(QGC_ORG_DOMAIN "BluGC.com" CACHE STRING "Domain")
+set(QGC_PACKAGE_NAME "org.mavlink.BluGC" CACHE STRING "Package Name")
 set(QGC_SETTINGS_VERSION "9" CACHE STRING "Settings Version") # If you need to make an incompatible changes to stored settings, bump this version number up by 1. This will caused store settings to be cleared on next boot.
 
 # Build
@@ -16,7 +16,7 @@ option(QGC_STABLE_BUILD "Stable Build" OFF)
 option(QGC_USE_CACHE "Use Build Caching" ON)
 option(QGC_BUILD_INSTALLER "Build Installer" ON)
 cmake_dependent_option(QGC_BUILD_TESTING "Enable testing" ON "CMAKE_BUILD_TYPE STREQUAL Debug" OFF)
-cmake_dependent_option(QGC_DEBUG_QML "Build QGroundControl with QML debugging/profiling support." ON "CMAKE_BUILD_TYPE STREQUAL Debug" OFF)
+cmake_dependent_option(QGC_DEBUG_QML "Build BluGC with QML debugging/profiling support." ON "CMAKE_BUILD_TYPE STREQUAL Debug" OFF)
 
 # Features
 option(QGC_UTM_ADAPTER "Enable UTM Adapter" OFF)
@@ -66,23 +66,23 @@ set(QGC_QT_ANDROID_MIN_SDK_VERSION "28" CACHE STRING "Android Min SDK Version")
 # MacOS
 set(QGC_MACOS_PLIST_PATH "${CMAKE_SOURCE_DIR}/deploy/macos/MacOSXBundleInfo.plist.in" CACHE FILEPATH "MacOS PList Path")
 set(QGC_MACOS_BUNDLE_ID "${QGC_PACKAGE_NAME}" CACHE STRING "MacOS Bundle ID")
-set(QGC_MACOS_ICON_PATH "${CMAKE_SOURCE_DIR}/deploy/macos/qgroundcontrol.icns" CACHE FILEPATH "MacOS Icon Path")
-set(QGC_MACOS_ENTITLEMENTS_PATH "${CMAKE_SOURCE_DIR}/deploy/macos/qgroundcontrol.entitlements" CACHE FILEPATH "MacOS Entitlements Path")
+set(QGC_MACOS_ICON_PATH "${CMAKE_SOURCE_DIR}/deploy/macos/BluGC.icns" CACHE FILEPATH "MacOS Icon Path")
+set(QGC_MACOS_ENTITLEMENTS_PATH "${CMAKE_SOURCE_DIR}/deploy/macos/BluGC.entitlements" CACHE FILEPATH "MacOS Entitlements Path")
 option(QGC_MACOS_UNIVERSAL_BUILD "Build MacOS Universal Build (arm64;x86_64)" ON)
 
 # Linux
 option(QGC_CREATE_APPIMAGE "Build an AppImage after build" ON)
-set(QGC_APPIMAGE_ICON_256_PATH "${CMAKE_SOURCE_DIR}/deploy/linux/QGroundControl_256.png" CACHE FILEPATH "AppImage Icon 256x256 Path")
-set(QGC_APPIMAGE_ICON_SCALABLE_PATH "${CMAKE_SOURCE_DIR}/deploy/linux/QGroundControl.svg" CACHE FILEPATH "AppImage Icon SVG Path")
+set(QGC_APPIMAGE_ICON_256_PATH "${CMAKE_SOURCE_DIR}/deploy/linux/BluGC_256.png" CACHE FILEPATH "AppImage Icon 256x256 Path")
+set(QGC_APPIMAGE_ICON_SCALABLE_PATH "${CMAKE_SOURCE_DIR}/deploy/linux/BluGC.svg" CACHE FILEPATH "AppImage Icon SVG Path")
 set(QGC_APPIMAGE_APPRUN_PATH "${CMAKE_SOURCE_DIR}/deploy/linux/AppRun" CACHE FILEPATH "AppImage AppRun Path")
-set(QGC_APPIMAGE_DESKTOP_ENTRY_PATH "${CMAKE_SOURCE_DIR}/deploy/linux/org.mavlink.qgroundcontrol.desktop.in" CACHE FILEPATH "AppImage Desktop Entry Path")
-set(QGC_APPIMAGE_METADATA_PATH "${CMAKE_SOURCE_DIR}/deploy/linux/org.mavlink.qgroundcontrol.appdata.xml.in" CACHE FILEPATH "AppImage Metadata Path")
-set(QGC_APPIMAGE_APPDATA_DEVELOPER "qgroundcontrol" CACHE STRING "AppImage Metadata Developer")
+set(QGC_APPIMAGE_DESKTOP_ENTRY_PATH "${CMAKE_SOURCE_DIR}/deploy/linux/org.mavlink.BluGC.desktop.in" CACHE FILEPATH "AppImage Desktop Entry Path")
+set(QGC_APPIMAGE_METADATA_PATH "${CMAKE_SOURCE_DIR}/deploy/linux/org.mavlink.BluGC.appdata.xml.in" CACHE FILEPATH "AppImage Metadata Path")
+set(QGC_APPIMAGE_APPDATA_DEVELOPER "BluGC" CACHE STRING "AppImage Metadata Developer")
 
 # Windows
 set(QGC_WINDOWS_INSTALL_HEADER_PATH "${CMAKE_SOURCE_DIR}/deploy/windows/installheader.bmp" CACHE FILEPATH "Windows Install Header Path")
 set(QGC_WINDOWS_ICON_PATH "${CMAKE_SOURCE_DIR}/deploy/windows/WindowsQGC.ico" CACHE FILEPATH "Windows Icon Path")
-set(QGC_WINDOWS_RESOURCE_FILE_PATH "${CMAKE_SOURCE_DIR}/deploy/windows/QGroundControl.rc" CACHE FILEPATH "Windows Resource File Path")
+set(QGC_WINDOWS_RESOURCE_FILE_PATH "${CMAKE_SOURCE_DIR}/deploy/windows/BluGC.rc" CACHE FILEPATH "Windows Resource File Path")
 
 # CPM
 set(QGC_CPM_SOURCE_CACHE "" CACHE PATH "Directory to Download CPM Dependencies, Overrides CPM_SOURCE_CACHE Env Variable")
