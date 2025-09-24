@@ -34,10 +34,20 @@ RowLayout {
         mainWindow.showIndicatorDrawer(overallStatusComponent, control)
     }
 
+
     QGCLabel {
         id:                 mainStatusLabel
         Layout.fillHeight:  true
-        Layout.preferredWidth: contentWidth + vehicleMessagesIcon.width + control.spacing
+        Layout.preferredWidth: contentWidth + vehicleMessagesIcon.width + (control.spacing * 2) + (mainStatusLabel.leftPadding + mainStatusLabel.rightPadding)
+        Layout.leftMargin:  control._margins
+        Layout.rightMargin: control._margins
+        Layout.topMargin:   control._margins / 2
+        Layout.bottomMargin: control._margins / 2
+        leftPadding:        control._margins
+        rightPadding:       control._margins
+        topPadding:         control._margins / 2
+        bottomPadding:      control._margins / 2
+        horizontalAlignment: Text.AlignLeft
         verticalAlignment:  Text.AlignVCenter
         text:               mainStatusText()
         font.pointSize:     ScreenTools.largeFontPointSize
@@ -45,7 +55,7 @@ RowLayout {
         property string _commLostText:      qsTr("Comms Lost")
         property string _readyToFlyText:    qsTr("Ready To Fly")
         property string _notReadyToFlyText: qsTr("Not Ready")
-        property string _disconnectedText:  qsTr("Disconnected - Click to manually connect")
+        property string _disconnectedText:  qsTr("Disconnected")
         property string _armedText:         qsTr("Armed")
         property string _flyingText:        qsTr("Flying")
         property string _landingText:       qsTr("Landing")

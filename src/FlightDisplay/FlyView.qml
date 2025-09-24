@@ -81,6 +81,8 @@ Item {
     FlyViewToolBar {
         id:         toolbar
         visible:    !QGroundControl.videoManager.fullScreen
+        width:      300
+        anchors.left: parent.left
     }
 
     Item {
