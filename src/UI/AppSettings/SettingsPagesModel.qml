@@ -95,12 +95,12 @@ ListModel {
         pageVisible: function() { return true }
     }
 
-    ListElement {
-        name: qsTr("Help")
-        url: "qrc:/qml/QGroundControl/AppSettings/HelpSettings.qml"
-        iconUrl: "qrc:/InstrumentValueIcons/question.svg"
-        pageVisible: function() { return true }
-    }
+    // ListElement {
+    //     name: qsTr("Help")
+    //     url: "qrc:/qml/QGroundControl/AppSettings/HelpSettings.qml"
+    //     iconUrl: "qrc:/InstrumentValueIcons/question.svg"
+    //     pageVisible: function() { return true }
+    // }
 
     ListElement {
         name: qsTr("Mock Link")
@@ -116,11 +116,11 @@ ListModel {
         pageVisible: function() { return ScreenTools.isDebug }
     }
 
-    ListElement {
-        name: qsTr("Palette Test")
-        url: "qrc:/qml/QGroundControl/AppSettings/QmlTest.qml"
-        iconUrl: "qrc:/InstrumentValueIcons/photo.svg"
-        pageVisible: function() { return ScreenTools.isDebug }
-    }
+    // ListElement {
+    //     name: qsTr("Palette Test")
+    //     url: "qrc:/qml/QGroundControl/AppSettings/QmlTest.qml"
+    //     iconUrl: "qrc:/InstrumentValueIcons/photo.svg"
+    //     pageVisible: function() { return ScreenTools.isDebug }
+    // }
 }
 
