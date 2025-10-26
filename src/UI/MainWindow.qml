@@ -990,4 +990,52 @@ ApplicationWindow {
             }
         }
     }
+
+    // Branding / log images: top-right (inside the banner) and bottom-left
+    Image {
+        id: bannerTopRightLogo
+        parent: mainWindow.contentItem
+        source: "qrc:/res/QGCLogoFull.svg"    // explicit qrc: URL
+        anchors.top:    mainWindow.contentItem.top
+        anchors.right:  mainWindow.contentItem.right
+        anchors.topMargin: 6
+        anchors.rightMargin: 12
+        width: Math.min(mainWindow.width * 0.06, 56)
+        height: width
+        fillMode: Image.PreserveAspectFit
+        z: 100000
+        visible: true
+
+        onStatusChanged: {
+            if (status === Image.Error) {
+                console.warn("bannerTopRightLogo failed to load:", source, "status:", status, "errorString:", bannerTopRightLogo.errorString)
+            } else if (status === Image.Ready) {
+                console.log("bannerTopRightLogo loaded:", source)
+            }
+        }
+    }
+
+    Image {
+        id: bottomLeftLogo
+        parent: mainWindow.contentItem
+        source: "qrc:/res/QGCLogoFull.svg"
+        anchors.left:   mainWindow.contentItem.left
+        anchors.bottom: mainWindow.contentItem.bottom
+        anchors.leftMargin: 12
+        anchors.bottomMargin: 12
+        width: Math.min(mainWindow.width * 0.12, 140)   // increased max size
+        height: width
+        fillMode: Image.PreserveAspectFit
+        z: 100000
+        visible: true
+        opacity: 0.95
+
+        onStatusChanged: {
+            if (status === Image.Error) {
+                console.warn("bottomLeftLogo failed to load:", source, "status:", status, "errorString:", bottomLeftLogo.errorString)
+            } else if (status === Image.Ready) {
+                console.log("bottomLeftLogo loaded:", source)
+            }
+        }
+    }
 }
