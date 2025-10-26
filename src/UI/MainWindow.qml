@@ -31,9 +31,10 @@ ApplicationWindow {
     property bool   loadingScreenVisible: true
     property int    _carouselIndex: 0
 
+    // Timers: step carousel and hide loading overlay after 3s
     Timer {
         id: carouselStepTimer
-        interval: 2000
+        interval: 2500
         repeat: true
         running: true
         onTriggered: {
@@ -43,7 +44,7 @@ ApplicationWindow {
 
     Timer {
         id: loadingHideTimer
-        interval: 4000
+        interval: 5000            // show loading overlay for 4 seconds
         running: true
         repeat: false
         onTriggered: {
@@ -57,24 +58,29 @@ ApplicationWindow {
         anchors.fill: parent
         visible: loadingScreenVisible
         z: 9999
-        color: "#1f2428"    // simple dark background so palette is not required here
+        color: "#1f2428"
         opacity: 1.0
 
         Column {
+            id: loadingColumn
             anchors.centerIn: parent
             spacing: ScreenTools.defaultFontPixelHeight
-            width: Math.min(parent.width * 0.8, 800)
+            width: Math.min(mainWindow.width * 0.6, 640)
+            anchors.horizontalCenter: parent.horizontalCenter
 
             Rectangle {
+                id: carouselContainer
                 width: parent.width
-                height: parent.height * 0.45
+                height: Math.min(mainWindow.height * 0.45, 360)   // capped container height
                 radius: 8
                 color: "#2b3136"
                 border.color: "#3a4046"
                 border.width: 1
+                clip: true                                      // clip children to container
 
-                // Simple "carousel" - switches text blocks based on _carouselIndex
+                // Ensure children size relative to container to avoid overflow
                 Loader {
+                    id: carouselLoader
                     anchors.fill: parent
                     sourceComponent: _carouselIndex === 0 ? carouselPage0 : carouselPage1
                 }
@@ -111,15 +117,51 @@ ApplicationWindow {
         id: carouselPage0
         Item {
             anchors.fill: parent
-            Rectangle { anchors.fill: parent; color: "transparent" }
+
+            // layout constrained to the carouselContainer via parent (Loader anchors.fill)
             Column {
-                anchors.centerIn: parent
+                anchors.fill: parent
                 anchors.margins: ScreenTools.defaultFontPixelHeight
                 spacing: ScreenTools.defaultFontPixelHeight / 2
-                width: parent.width * 0.9
+                width: parent.width * 0.95
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                QGCLabel { text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."; color: "white"; wrapMode: QGCLabel.WrapAnywhere }
-                QGCLabel { text: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."; color: "#d3d7da"; wrapMode: QGCLabel.WrapAnywhere }
+                // image size limited relative to container height so text has room
+                Image {
+                    source: "/res/QGCLogoFull.svg"
+                    width: Math.min(parent.width * 0.45, parent.height * 0.45, 220)
+                    height: width
+                    fillMode: Image.PreserveAspectFit
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                QGCLabel {
+                    text: "BluGC"
+                    color: "white"
+                    font.pointSize: ScreenTools.largeFontPointSize
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                // paragraph area: fixed max height, clipped, using Text for predictable rendering
+                Rectangle {
+                    width: parent.width * 0.95
+                    height: Math.max(48, parent.height * 0.18)   // ensure reasonable paragraph height
+                    color: "transparent"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    clip: true
+
+                    Text {
+                        id: para0
+                        anchors.fill: parent
+                        color: "#d3d7da"
+                        wrapMode: Text.WordWrap
+                        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                        font.pointSize: Math.round(ScreenTools.defaultFontPointSize * 1.2)  // increased paragraph size
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+                }
             }
         }
     }
@@ -128,15 +170,48 @@ ApplicationWindow {
         id: carouselPage1
         Item {
             anchors.fill: parent
-            Rectangle { anchors.fill: parent; color: "transparent" }
+
             Column {
-                anchors.centerIn: parent
+                anchors.fill: parent
                 anchors.margins: ScreenTools.defaultFontPixelHeight
                 spacing: ScreenTools.defaultFontPixelHeight / 2
-                width: parent.width * 0.9
+                width: parent.width * 0.95
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                QGCLabel { text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."; color: "white"; wrapMode: QGCLabel.WrapAnywhere }
-                QGCLabel { text: "Nisi ut aliquip ex ea commodo consequat."; color: "#d3d7da"; wrapMode: QGCLabel.WrapAnywhere }
+                Image {
+                    source: "/res/QGCLogoFull.svg"
+                    width: Math.min(parent.width * 0.45, parent.height * 0.45, 220)
+                    height: width
+                    fillMode: Image.PreserveAspectFit
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                QGCLabel {
+                    text: "BluGC"
+                    color: "white"
+                    font.pointSize: ScreenTools.largeFontPointSize
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                Rectangle {
+                    width: parent.width * 0.95
+                    height: Math.max(48, parent.height * 0.18)
+                    color: "transparent"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    clip: true
+
+                    Text {
+                        id: para1
+                        anchors.fill: parent
+                        color: "#d3d7da"
+                        wrapMode: Text.WordWrap
+                        text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                        font.pointSize: Math.round(ScreenTools.defaultFontPointSize * 1.2)
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+                }
             }
         }
     }
