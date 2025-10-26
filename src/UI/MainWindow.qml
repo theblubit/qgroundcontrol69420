@@ -27,7 +27,136 @@ ApplicationWindow {
     id:             mainWindow
     visible:        true
 
-    property bool   _utmspSendActTrigger
+    // Loading screen: show an overlay carousel for 3 seconds before revealing the UI.
+    property bool   loadingScreenVisible: true
+    property int    _carouselIndex: 0
+
+    Timer {
+        id: carouselStepTimer
+        interval: 2000
+        repeat: true
+        running: true
+        onTriggered: {
+            _carouselIndex = (_carouselIndex + 1) % 2
+        }
+    }
+
+    Timer {
+        id: loadingHideTimer
+        interval: 4000
+        running: true
+        repeat: false
+        onTriggered: {
+            loadingScreenVisible = false
+            carouselStepTimer.stop()
+        }
+    }
+
+    Rectangle {
+        id: loadingOverlay
+        anchors.fill: parent
+        visible: loadingScreenVisible
+        z: 9999
+        color: "#1f2428"    // simple dark background so palette is not required here
+        opacity: 1.0
+
+        Column {
+            anchors.centerIn: parent
+            spacing: ScreenTools.defaultFontPixelHeight
+            width: Math.min(parent.width * 0.8, 800)
+
+            Rectangle {
+                width: parent.width
+                height: parent.height * 0.45
+                radius: 8
+                color: "#2b3136"
+                border.color: "#3a4046"
+                border.width: 1
+
+                // Simple "carousel" - switches text blocks based on _carouselIndex
+                Loader {
+                    anchors.fill: parent
+                    sourceComponent: _carouselIndex === 0 ? carouselPage0 : carouselPage1
+                }
+            }
+
+            Row {
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: ScreenTools.defaultFontPixelWidth / 2
+
+                Repeater {
+                    model: 2
+                    Rectangle {
+                        width: 10; height: 10
+                        radius: 5
+                        color: index === mainWindow._carouselIndex ? "#ffffff" : "#6b6f73"
+                        opacity: index === mainWindow._carouselIndex ? 1.0 : 0.6
+                    }
+                }
+            }
+
+            QGCLabel {
+                text: qsTr("Loading %1...").arg(QGroundControl.appName)
+                font.pointSize: ScreenTools.defaultFontPointSize
+                color: "white"
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
+
+        // Block input to underlying UI while visible
+        MouseArea { anchors.fill: parent; acceptedButtons: Qt.AllButtons }
+    }
+
+    Component {
+        id: carouselPage0
+        Item {
+            anchors.fill: parent
+            Rectangle { anchors.fill: parent; color: "transparent" }
+            Column {
+                anchors.centerIn: parent
+                anchors.margins: ScreenTools.defaultFontPixelHeight
+                spacing: ScreenTools.defaultFontPixelHeight / 2
+                width: parent.width * 0.9
+
+                QGCLabel { text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."; color: "white"; wrapMode: QGCLabel.WrapAnywhere }
+                QGCLabel { text: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."; color: "#d3d7da"; wrapMode: QGCLabel.WrapAnywhere }
+            }
+        }
+    }
+
+    Component {
+        id: carouselPage1
+        Item {
+            anchors.fill: parent
+            Rectangle { anchors.fill: parent; color: "transparent" }
+            Column {
+                anchors.centerIn: parent
+                anchors.margins: ScreenTools.defaultFontPixelHeight
+                spacing: ScreenTools.defaultFontPixelHeight / 2
+                width: parent.width * 0.9
+
+                QGCLabel { text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."; color: "white"; wrapMode: QGCLabel.WrapAnywhere }
+                QGCLabel { text: "Nisi ut aliquip ex ea commodo consequat."; color: "#d3d7da"; wrapMode: QGCLabel.WrapAnywhere }
+            }
+        }
+    }
+
+    Component {
+        id: carouselPage2
+        Item {
+            anchors.fill: parent
+            Rectangle { anchors.fill: parent; color: "transparent" }
+            Column {
+                anchors.centerIn: parent
+                anchors.margins: ScreenTools.defaultFontPixelHeight
+                spacing: ScreenTools.defaultFontPixelHeight / 2
+                width: parent.width * 0.9
+
+                QGCLabel { text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum."; color: "white"; wrapMode: QGCLabel.WrapAnywhere }
+                QGCLabel { text: "Excepteur sint occaecat cupidatat non proident."; color: "#d3d7da"; wrapMode: QGCLabel.WrapAnywhere }
+            }
+        }
+    }
 
     Component.onCompleted: {
         // Start the sequence of first run prompt(s)
