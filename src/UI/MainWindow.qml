@@ -103,7 +103,7 @@ ApplicationWindow {
         id: carouselPage1
         Image {
             anchors.fill: parent
-            source: "/res/mace.svg"
+            source: "/res/mace.png"
             fillMode: Image.PreserveAspectFit
         }
     }
@@ -879,7 +879,7 @@ ApplicationWindow {
     Image {
         id: bannerTopRightLogo
         parent: mainWindow.contentItem
-        source: "/res/mace.svg"    // explicit qrc: URL
+        source: "/res/mace.png"    // explicit qrc: URL
         anchors.top:    mainWindow.contentItem.top
         anchors.right:  mainWindow.contentItem.right
         anchors.topMargin: 6
@@ -902,7 +902,7 @@ ApplicationWindow {
     Image {
         id: bannerBottomRightLogo
         parent: mainWindow.contentItem
-        source: "qrc:/res/latency0.svg"
+        source: "/res/latency0.png"
         anchors.bottom: mainWindow.contentItem.bottom
         anchors.left:  mainWindow.contentItem.left
         anchors.bottomMargin: 6
