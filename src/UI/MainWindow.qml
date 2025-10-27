@@ -879,7 +879,7 @@ ApplicationWindow {
     Image {
         id: bannerTopRightLogo
         parent: mainWindow.contentItem
-        source: "qrc:/res/QGCLogoFull.svg"    // explicit qrc: URL
+        source: "/res/mace.svg"    // explicit qrc: URL
         anchors.top:    mainWindow.contentItem.top
         anchors.right:  mainWindow.contentItem.right
         anchors.topMargin: 6
@@ -904,10 +904,10 @@ ApplicationWindow {
         parent: mainWindow.contentItem
         source: "qrc:/res/latency0.svg"
         anchors.bottom: mainWindow.contentItem.bottom
-        anchors.right:  mainWindow.contentItem.right
+        anchors.left:  mainWindow.contentItem.left
         anchors.bottomMargin: 6
-        anchors.rightMargin: 12
-        width: Math.min(mainWindow.width * 0.06, 56)
+        anchors.leftMargin: 12
+        width: Math.min(mainWindow.width * 0.12, 112)
         height: width
         fillMode: Image.PreserveAspectFit
         z: 100000
