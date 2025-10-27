@@ -37,17 +37,17 @@ ApplicationWindow {
     // Timers: step carousel and hide loading overlay after 3s
     Timer {
         id: carouselStepTimer
-        interval: 2500
+        interval: 1500
         repeat: true
         running: true
         onTriggered: {
-            _carouselIndex = (_carouselIndex + 1) % 2
+            _carouselIndex = (_carouselIndex + 1) % 3
         }
     }
 
     Timer {
         id: loadingHideTimer
-        interval: 5000            // show loading overlay for 4 seconds
+        interval: 4500            // show loading overlay for 4.5 seconds (3 images * 1.5s each)
         running: true
         repeat: false
         onTriggered: {
@@ -68,47 +68,21 @@ ApplicationWindow {
             id: loadingColumn
             anchors.centerIn: parent
             spacing: ScreenTools.defaultFontPixelHeight
-            width: Math.min(mainWindow.width * 0.6, 640)
+            width: Math.min(mainWindow.width * 0.9, 640)
             anchors.horizontalCenter: parent.horizontalCenter
 
             Rectangle {
                 id: carouselContainer
                 width: parent.width
-                height: Math.min(mainWindow.height * 0.45, 360)   // capped container height
-                radius: 8
-                color: "#2b3136"
-                border.color: "#3a4046"
-                border.width: 1
-                clip: true                                      // clip children to container
+                height: Math.min(mainWindow.height * 0.9, 640)
+                color: "transparent"
+                clip: true
 
-                // Ensure children size relative to container to avoid overflow
                 Loader {
                     id: carouselLoader
                     anchors.fill: parent
-                    sourceComponent: _carouselIndex === 0 ? carouselPage0 : carouselPage1
+                    sourceComponent: _carouselIndex === 0 ? carouselPage0 : (_carouselIndex === 1 ? carouselPage1 : carouselPage2)
                 }
-            }
-
-            Row {
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: ScreenTools.defaultFontPixelWidth / 2
-
-                Repeater {
-                    model: 2
-                    Rectangle {
-                        width: 10; height: 10
-                        radius: 5
-                        color: index === mainWindow._carouselIndex ? "#ffffff" : "#6b6f73"
-                        opacity: index === mainWindow._carouselIndex ? 1.0 : 0.6
-                    }
-                }
-            }
-
-            QGCLabel {
-                text: qsTr("Loading %1...").arg(QGroundControl.appName)
-                font.pointSize: ScreenTools.defaultFontPointSize
-                color: "white"
-                horizontalAlignment: Text.AlignHCenter
             }
         }
 
@@ -118,121 +92,28 @@ ApplicationWindow {
 
     Component {
         id: carouselPage0
-        Item {
+        Image {
             anchors.fill: parent
-
-            // layout constrained to the carouselContainer via parent (Loader anchors.fill)
-            Column {
-                anchors.fill: parent
-                anchors.margins: ScreenTools.defaultFontPixelHeight
-                spacing: ScreenTools.defaultFontPixelHeight / 2
-                width: parent.width * 0.95
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                // image size limited relative to container height so text has room
-                Image {
-                    source: "/res/QGCLogoFull.svg"
-                    width: Math.min(parent.width * 0.45, parent.height * 0.45, 220)
-                    height: width
-                    fillMode: Image.PreserveAspectFit
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-
-                QGCLabel {
-                    text: "BluGC"
-                    color: "white"
-                    font.pointSize: ScreenTools.largeFontPointSize
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-
-                // paragraph area: fixed max height, clipped, using Text for predictable rendering
-                Rectangle {
-                    width: parent.width * 0.95
-                    height: Math.max(48, parent.height * 0.18)   // ensure reasonable paragraph height
-                    color: "transparent"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    clip: true
-
-                    Text {
-                        id: para0
-                        anchors.fill: parent
-                        color: "#d3d7da"
-                        wrapMode: Text.WordWrap
-                        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                        font.pointSize: Math.round(ScreenTools.defaultFontPointSize * 1.2)  // increased paragraph size
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        elide: Text.ElideRight
-                    }
-                }
-            }
+            source: "/res/blubit.svg"
+            fillMode: Image.PreserveAspectFit
         }
     }
 
     Component {
         id: carouselPage1
-        Item {
+        Image {
             anchors.fill: parent
-
-            Column {
-                anchors.fill: parent
-                anchors.margins: ScreenTools.defaultFontPixelHeight
-                spacing: ScreenTools.defaultFontPixelHeight / 2
-                width: parent.width * 0.95
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                Image {
-                    source: "/res/QGCLogoFull.svg"
-                    width: Math.min(parent.width * 0.45, parent.height * 0.45, 220)
-                    height: width
-                    fillMode: Image.PreserveAspectFit
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-
-                QGCLabel {
-                    text: "BluGC"
-                    color: "white"
-                    font.pointSize: ScreenTools.largeFontPointSize
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-
-                Rectangle {
-                    width: parent.width * 0.95
-                    height: Math.max(48, parent.height * 0.18)
-                    color: "transparent"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    clip: true
-
-                    Text {
-                        id: para1
-                        anchors.fill: parent
-                        color: "#d3d7da"
-                        wrapMode: Text.WordWrap
-                        text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                        font.pointSize: Math.round(ScreenTools.defaultFontPointSize * 1.2)
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        elide: Text.ElideRight
-                    }
-                }
-            }
+            source: "/res/mace.svg"
+            fillMode: Image.PreserveAspectFit
         }
     }
 
     Component {
         id: carouselPage2
-        Item {
+        Image {
             anchors.fill: parent
-            Rectangle { anchors.fill: parent; color: "transparent" }
-            Column {
-                anchors.centerIn: parent
-                anchors.margins: ScreenTools.defaultFontPixelHeight
-                spacing: ScreenTools.defaultFontPixelHeight / 2
-                width: parent.width * 0.9
-
-                QGCLabel { text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum."; color: "white"; wrapMode: QGCLabel.WrapAnywhere }
-                QGCLabel { text: "Excepteur sint occaecat cupidatat non proident."; color: "#d3d7da"; wrapMode: QGCLabel.WrapAnywhere }
-            }
+            source: "/res/drone.svg"
+            fillMode: Image.PreserveAspectFit
         }
     }
 
@@ -1016,5 +897,21 @@ ApplicationWindow {
                 console.log("bannerTopRightLogo loaded:", source)
             }
         }
+    }
+
+    Image {
+        id: bannerBottomRightLogo
+        parent: mainWindow.contentItem
+        source: "qrc:/res/latency0.svg"
+        anchors.bottom: mainWindow.contentItem.bottom
+        anchors.right:  mainWindow.contentItem.right
+        anchors.bottomMargin: 6
+        anchors.rightMargin: 12
+        width: Math.min(mainWindow.width * 0.06, 56)
+        height: width
+        fillMode: Image.PreserveAspectFit
+        z: 100000
+        visible: true
+        opacity: 0.65
     }
 }
