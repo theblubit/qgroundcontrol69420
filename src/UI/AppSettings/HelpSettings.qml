@@ -26,40 +26,53 @@ Rectangle {
     QGCFlickable {
         anchors.margins:    _margins
         anchors.fill:       parent
-        contentWidth:       grid.width
-        contentHeight:      grid.height
+        contentWidth:       aboutColumn.width
+        contentHeight:      aboutColumn.height
         clip:               true
 
-        GridLayout {
-            id:         grid
-            columns:    2
+        Column {
+            id: aboutColumn
+            width: parent.width - (_margins * 2)
+            spacing: ScreenTools.defaultFontPixelHeight
 
-            QGCLabel { text: qsTr("QGroundControl User Guide") }
             QGCLabel {
-                linkColor:          qgcPal.text
-                text:               "<a href=\"https://docs.qgroundcontrol.com\">https://docs.qgroundcontrol.com</a>"
-                onLinkActivated:    (link) => Qt.openUrlExternally(link)
+                text: qsTr("BLUGC – Autonomous UAV Software")
+                font.pointSize: ScreenTools.largeFontPointSize
+                font.bold: true
             }
 
-            QGCLabel { text: qsTr("PX4 Users Discussion Forum") }
-            QGCLabel {
-                linkColor:          qgcPal.text
-                text:               "<a href=\"http://discuss.px4.io/c/qgroundcontrol\">http://discuss.px4.io/c/qgroundcontrol</a>"
-                onLinkActivated:    (link) => Qt.openUrlExternally(link)
+            GridLayout {
+                width: parent.width
+                columns: 2
+                columnSpacing: ScreenTools.defaultFontPixelWidth * 2
+                rowSpacing: ScreenTools.defaultFontPixelHeight * 0.5
+
+                QGCLabel { text: qsTr("Version:"); font.bold: true }
+                QGCLabel { text: qsTr("v1.0") }
+
+                QGCLabel { text: qsTr("Author:"); font.bold: true }
+                QGCLabel { text: qsTr("Blubit Solutions") }
+
+                QGCLabel { text: qsTr("Team:"); font.bold: true }
+                QGCLabel { text: qsTr("Latency Zero") }
+
+                QGCLabel { text: qsTr("Date:"); font.bold: true }
+                QGCLabel { text: qsTr("27/10/2025") }
             }
 
-            QGCLabel { text: qsTr("ArduPilot Users Discussion Forum") }
             QGCLabel {
-                linkColor:          qgcPal.text
-                text:               "<a href=\"https://discuss.ardupilot.org/c/ground-control-software/qgroundcontrol\">https://discuss.ardupilot.org/c/ground-control-software/qgroundcontrol</a>"
-                onLinkActivated:    (link) => Qt.openUrlExternally(link)
+                text: qsTr("About")
+                font.pointSize: ScreenTools.mediumFontPointSize
+                font.bold: true
             }
 
-            QGCLabel { text: qsTr("QGroundControl Discord Channel") }
-            QGCLabel {
-                linkColor:          qgcPal.text
-                text:               "<a href=\"https://discord.com/channels/1022170275984457759/1022185820683255908\">https://discord.com/channels/1022170275984457759/1022185820683255908</a>"
-                onLinkActivated:    (link) => Qt.openUrlExternally(link)
+            Text {
+                width: parent.width
+                wrapMode: Text.WordWrap
+                color: qgcPal.text
+                font.family: ScreenTools.normalFontFamily
+                font.pointSize: ScreenTools.defaultFontPointSize
+                text: "BLUGC is a fully autonomous UAV software platform developed by Blubit Solutions for Team Latency Zero to enable intelligent, self-managing drone operations with minimal human intervention. The software provides end-to-end automation for mission planning, execution, monitoring, and data management, combining AI-driven decision-making, real-time telemetry analysis, and dynamic mission adaptation. It generates optimized flight paths and waypoints, continuously monitors UAV status and sensor inputs, and autonomously adjusts missions in-flight, including rerouting UAVs and reallocating tasks among multiple drones. BLUGC features a modular architecture, supporting multi-UAV coordination, optional specialized modules for payload delivery, surveillance, mapping, precision agriculture, and object tracking, while incorporating advanced safety and reliability protocols such as obstacle avoidance, fail-safe mechanisms, emergency landing procedures, and mission continuity safeguards. By providing a comprehensive autonomous operational framework, BLUGC empowers Team Latency Zero to conduct complex UAV missions efficiently, safely, and consistently, significantly reducing human workload while maximizing operational effectiveness across diverse applications."
             }
         }
     }
