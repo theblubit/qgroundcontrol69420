@@ -85,15 +85,15 @@ QGCApplication::QGCApplication(int &argc, char *argv[], const QGCCommandLinePars
     } else {
 #ifdef QGC_DAILY_BUILD
         // This gives daily builds their own separate settings space. Allowing you to use daily and stable builds
-        // side by side without daily screwing up your stable settings.
+        // side by side without dailimplicitWidthy screwing up your stable settings.
         applicationName = QStringLiteral("%1 Daily").arg("BluGC");
 #else
         applicationName = "BluGC";
 #endif
     }
     setApplicationName(applicationName);
-    setOrganizationName(QGC_ORG_NAME);
-    setOrganizationDomain(QGC_ORG_DOMAIN);
+    setOrganizationName("BluGC");
+    setOrganizationDomain("BluGC.com");
     setApplicationVersion(QString(QGC_APP_VERSION_STR));
 
     // Set settings format
