@@ -24,10 +24,98 @@ import QGroundControl.FlightMap
 /// @brief Native QML top level window
 /// All properties defined here are visible to all QML pages.
 ApplicationWindow {
-    id:             mainWindow
-    visible:        true
+    id: mainWindow
+    visible: true
 
-    property bool   _utmspSendActTrigger
+    // add this so pages can register themselves as "the main page"
+    property Item mainPageRoot: null
+
+    // Loading screen: show an overlay carousel for 3 seconds before revealing the UI.
+    property bool   loadingScreenVisible: true
+    property int    _carouselIndex: 0
+
+    // Timers: step carousel and hide loading overlay after 3s
+    Timer {
+        id: carouselStepTimer
+        interval: 1500
+        repeat: true
+        running: true
+        onTriggered: {
+            _carouselIndex = (_carouselIndex + 1) % 3
+        }
+    }
+
+    Timer {
+        id: loadingHideTimer
+        interval: 4500            // show loading overlay for 4.5 seconds (3 images * 1.5s each)
+        running: true
+        repeat: false
+        onTriggered: {
+            loadingScreenVisible = false
+            carouselStepTimer.stop()
+        }
+    }
+
+    Rectangle {
+        id: loadingOverlay
+        anchors.fill: parent
+        visible: loadingScreenVisible
+        z: 9999
+        color: "#1f2428"
+        opacity: 1.0
+
+        Column {
+            id: loadingColumn
+            anchors.centerIn: parent
+            spacing: ScreenTools.defaultFontPixelHeight
+            width: Math.min(mainWindow.width * 0.9, 640)
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Rectangle {
+                id: carouselContainer
+                width: parent.width
+                height: Math.min(mainWindow.height * 0.9, 640)
+                color: "transparent"
+                clip: true
+
+                Loader {
+                    id: carouselLoader
+                    anchors.fill: parent
+                    sourceComponent: _carouselIndex === 0 ? carouselPage0 : (_carouselIndex === 1 ? carouselPage1 : carouselPage2)
+                }
+            }
+        }
+
+        // Block input to underlying UI while visible
+        MouseArea { anchors.fill: parent; acceptedButtons: Qt.AllButtons }
+    }
+
+    Component {
+        id: carouselPage0
+        Image {
+            anchors.fill: parent
+            source: "/res/blubit.svg"
+            fillMode: Image.PreserveAspectFit
+        }
+    }
+
+    Component {
+        id: carouselPage1
+        Image {
+            anchors.fill: parent
+            source: "/res/mace.png"
+            fillMode: Image.PreserveAspectFit
+        }
+    }
+
+    Component {
+        id: carouselPage2
+        Image {
+            anchors.fill: parent
+            source: "/res/drone.svg"
+            fillMode: Image.PreserveAspectFit
+        }
+    }
 
     Component.onCompleted: {
         // Start the sequence of first run prompt(s)
@@ -785,5 +873,45 @@ ApplicationWindow {
                 source = ""
             }
         }
+    }
+
+    // Branding / log images: top-right (inside the banner) and bottom-left
+    Image {
+        id: bannerTopRightLogo
+        parent: mainWindow.contentItem
+        source: "/res/mace.png"    // explicit qrc: URL
+        anchors.top:    mainWindow.contentItem.top
+        anchors.right:  mainWindow.contentItem.right
+        anchors.topMargin: 6
+        anchors.rightMargin: 12
+        width: Math.min(mainWindow.width * 0.06, 56)
+        height: width
+        fillMode: Image.PreserveAspectFit
+        z: 100000
+        visible: true
+
+        onStatusChanged: {
+            if (status === Image.Error) {
+                console.warn("bannerTopRightLogo failed to load:", source, "status:", status, "errorString:", bannerTopRightLogo.errorString)
+            } else if (status === Image.Ready) {
+                console.log("bannerTopRightLogo loaded:", source)
+            }
+        }
+    }
+
+    Image {
+        id: bannerBottomRightLogo
+        parent: mainWindow.contentItem
+        source: "/res/latency0.png"
+        anchors.bottom: mainWindow.contentItem.bottom
+        anchors.left:  mainWindow.contentItem.left
+        anchors.bottomMargin: 6
+        anchors.leftMargin: 12
+        width: Math.min(mainWindow.width * 0.12, 112)
+        height: width
+        fillMode: Image.PreserveAspectFit
+        z: 100000
+        visible: true
+        opacity: 0.65
     }
 }

@@ -41,7 +41,7 @@ apt-get install -y -qq --no-install-recommends \
     zsync
 
 pipx ensurepath
-pipx install cmake ninja
+# pipx install cmake     ninja
 
 # --------------------------------------------------------------------
 # Qt6 compile/runtime dependencies

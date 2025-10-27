@@ -82,6 +82,13 @@ Item {
         bottomEdgeLeftInset:    _pipView.bottomEdgeLeftInset
     }
 
+    FlyViewToolBar {
+        id:         toolbar
+        visible:    !QGroundControl.videoManager.fullScreen
+        width:      300
+        anchors.left: parent.left
+    }
+
     Item {
         id:                 mapHolder
         anchors.fill:       parent
