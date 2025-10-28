@@ -96,7 +96,7 @@ ListModel {
     }
 
     ListElement {
-        name: qsTr("Help")
+        name: qsTr("About")
         url: "qrc:/qml/QGroundControl/AppSettings/HelpSettings.qml"
         iconUrl: "qrc:/InstrumentValueIcons/question.svg"
         pageVisible: function() { return true }
