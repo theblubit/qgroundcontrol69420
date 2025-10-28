@@ -196,7 +196,7 @@ Item {
     }
 
     FlyViewToolBar {
-        id:         toolbar
+        id:         toolbarOverlay
         visible:    !QGroundControl.videoManager.fullScreen
     }
 }
