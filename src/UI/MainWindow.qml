@@ -61,7 +61,7 @@ ApplicationWindow {
         anchors.fill: parent
         visible: loadingScreenVisible
         z: 9999
-        color: _carouselIndex === 0 ? "#ffffff" : "#1f2428"
+        color: _carouselIndex === 0 ? "#ffffff" : _carouselIndex == 1 || _carouselIndex == 2? "#000000" : "#1f2428"
         opacity: 1.0
 
         Column {
