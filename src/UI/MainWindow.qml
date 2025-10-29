@@ -61,7 +61,7 @@ ApplicationWindow {
         anchors.fill: parent
         visible: loadingScreenVisible
         z: 9999
-        color: "#1f2428"
+        color: _carouselIndex === 0 ? "#ffffff" : "#1f2428"
         opacity: 1.0
 
         Column {
@@ -92,10 +92,14 @@ ApplicationWindow {
 
     Component {
         id: carouselPage0
-        Image {
+        Rectangle {
             anchors.fill: parent
-            source: "/res/blubit.svg"
-            fillMode: Image.PreserveAspectFit
+            color: "#ffffff"
+            Image {
+                anchors.fill: parent
+                source: "/res/blubit.svg"
+                fillMode: Image.PreserveAspectFit
+            }
         }
     }
 
@@ -907,7 +911,7 @@ ApplicationWindow {
         anchors.left:  mainWindow.contentItem.left
         anchors.bottomMargin: 6
         anchors.leftMargin: 12
-        width: Math.min(mainWindow.width * 0.12, 112)
+        width: Math.min(mainWindow.width * 0.2, 180)
         height: width
         fillMode: Image.PreserveAspectFit
         z: 100000
